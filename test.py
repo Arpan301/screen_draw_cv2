@@ -58,14 +58,10 @@ while True:
     cv2.putText(frame, "BLACK", (520, 33), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (150,150,150), 2, cv2.LINE_AA)
     if not grabbed:
         break
-
-    # Determine which pixels fall within the blue boundaries and then blur the binary image
     blueMask = cv2.inRange(hsv, blueLower, blueUpper)
     blueMask = cv2.erode(blueMask, kernel, iterations=2)
     blueMask = cv2.morphologyEx(blueMask, cv2.MORPH_OPEN, kernel)
     blueMask = cv2.dilate(blueMask, kernel, iterations=1)
-
-    # Find contours in the image
     cnts, _ = cv2.findContours(blueMask.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
     center = None
     if len(cnts) > 0:
